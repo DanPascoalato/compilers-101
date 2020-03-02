@@ -10,13 +10,14 @@ vector<string> parse_numbers_from(string);
 
 int main()
 {
-    const string message = "abc@  127.32 -28";
+    const string message = "abc@ 127.32 -28 .3";
     const vector<string> numbers = parse_numbers_from(message);
 
     for (int i = 0; i < numbers.size(); i++) {
         cout << numbers[i] << endl;
     }
 
+    cout << "Done" << endl;
     return 0;
 }
 
@@ -43,6 +44,9 @@ vector<string> parse_numbers_from(string message) {
             can_read_negative = false;
         }
         else if (is_decimal_symbol(chr) && can_read_decimal) {
+            if (buffer == "") {
+                buffer = "0";
+            }
             buffer += chr;
             can_read_decimal = false;
             can_read_negative = false;
