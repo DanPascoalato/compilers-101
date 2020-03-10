@@ -20,23 +20,29 @@ class Token {
         TokenType tokenType;
         Value value;
 
-    Token(TokenType tt, int integerValue) {
-        tokenType = tt;
-        value = Value();
-        value.i = integerValue;
-    }
+    private:
+        Token() {
+            value = Value();
+        }
 
-    Token(TokenType tt, double doubleValue) {
-        tokenType = tt;
-        value = Value();
-        value.r = doubleValue;
-    }
+    public:
+        Token(TokenType tt, int integerValue) {
+            Token();
+            tokenType = tt;
+            value.i = integerValue;
+        }
 
-    Token(TokenType tt, char tValue) {
-        tokenType = tt;
-        value = Value();
-        value.t = &tValue;
-    }
+        Token(TokenType tt, double doubleValue) {
+            Token();
+            tokenType = tt;
+            value.r = doubleValue;
+        }
+
+        Token(TokenType tt, char* tValue) {
+            Token();
+            tokenType = tt;
+            value.t = tValue;
+        }
 
 };
 
@@ -50,7 +56,8 @@ int main() {
     Token doubleToken = Token(REAL, 3.14);
     cout << "Token -> Value -> r: " << doubleToken.value.r << endl;
 
-    Token charToken = Token(TEXTO, 'z');
-    cout << "Token -> Value -> t: " << *charToken.value.t << endl;
+    //TODO: Refactoring the Token when the value is text
+    // Token charToken = Token(TEXTO, 'z');
+    // cout << "Token -> Value -> t: " << *charToken.value.t << endl;
 }
 
