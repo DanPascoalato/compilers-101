@@ -5,7 +5,7 @@ using namespace std;
 union Value {
     int intValue;
     double doubleValue;
-    char *charValue;
+    string* strValue;
 };
 
 class Node {
@@ -31,9 +31,9 @@ class Node {
             next = nextNode;
         }
 
-        Node (char charValue, Node* nextNode) {
+        Node (string* strValue, Node* nextNode) {
             Node();
-            value.charValue = &charValue;
+            value.strValue = strValue;
             next = nextNode;
         }
 
@@ -43,8 +43,17 @@ class Node {
 
 int main() {
 
-    Node node = Node(123, NULL);
-    cout << "Token -> Value -> i: " << node.value.intValue << endl;
-//    cout << "Token -> Value -> r: " << node.value.doubleValue << endl;
-//    cout << "Token -> Value -> t: " << *node.value.charValue << endl;
+    string stringValue = "demo string value";
+    Node third  = Node(&stringValue, NULL);
+    Node second = Node(3.1416, &third);
+    Node first = Node(2, &second);
+
+    for (Node* head = &first; head != NULL; head = head->next) {
+        cout << "Int Value: " << head->value.intValue << endl;
+        cout << "Double Value: " << head->value.doubleValue << endl;
+        cout << "String Value: " << head->value.strValue << endl;
+        //TODO: implement lookup on String value
+        cout << endl;
+    }
+
 }
