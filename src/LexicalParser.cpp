@@ -39,7 +39,7 @@ vector<string> parse_numbers_from(string message) {
             continue;
         }
 
-        if (isnumber(chr)) {
+        if (isdigit(chr)) {
             buffer += chr;
             can_read_negative = false;
         }
