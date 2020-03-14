@@ -5,55 +5,66 @@ using namespace std;
 union Value {
     int intValue;
     double doubleValue;
-    string* strValue;
+    char* strValue;
 };
 
 class Node {
     public:
+        enum {INT, DOUBLE, TEXT} tag;
         Value value;
         Node* next;
 
     private:
         Node() {
-            value = Value();
+            this->value = Value();
         }
 
     public:
-        Node(int intValue, Node* nextNode) {
+        Node(int value, Node* nextNode) {
             Node();
-            value.intValue = intValue;
-            next = nextNode;
+            this->next = nextNode;
+            this->tag = INT;
+            this->value = {.intValue=value};
         }
 
-        Node (double doubleValue, Node* nextNode) {
+        Node (double value, Node* nextNode) {
             Node();
-            value.doubleValue = doubleValue;
-            next = nextNode;
+            this->next = nextNode;
+            this->tag = DOUBLE;
+            this->value = {.doubleValue=value};
         }
 
-        Node (string* strValue, Node* nextNode) {
+        Node (char* value, Node* nextNode) {
             Node();
-            value.strValue = strValue;
-            next = nextNode;
+            this->next = nextNode;
+            this->tag = TEXT;
+            this->value = {.strValue=value};
         }
 
 };
 
-
+void print(Node* node) {
+    switch (node->tag) {
+        case Node::INT:
+            cout << "Integer Value: " << node->value.intValue << endl;
+            break;
+        case Node::DOUBLE:
+            cout << "Double  Value: " << node->value.doubleValue << endl;
+            break;
+        case Node::TEXT:
+            cout << "String  Value: " << node->value.strValue    << endl;
+            break;
+    }
+}
 
 int main() {
+    char charSequence[] = "demo string value";
+    Node* third  = new Node(charSequence, NULL);
+    Node* second = new Node(3.1416, third);
+    Node* first = new Node(1, second);
 
-    string stringValue = "demo string value";
-    Node third  = Node(&stringValue, NULL);
-    Node second = Node(3.1416, &third);
-    Node first = Node(2, &second);
-
-    for (Node* head = &first; head != NULL; head = head->next) {
-        cout << "Int Value: " << head->value.intValue << endl;
-        cout << "Double Value: " << head->value.doubleValue << endl;
-        cout << "String Value: " << head->value.strValue << endl;
-        //TODO: implement lookup on String value
-        cout << endl;
+    for (Node* head = first; head != NULL; head = head->next) {
+        print(head);
     }
 
 }
