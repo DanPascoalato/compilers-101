@@ -7,4 +7,4 @@ set(source_dir "${PROJECT_SOURCE_DIR}/src")
 
 file(GLOB source_files "${source_dir}/*.cpp")
 
-add_executable(compilers_101 ${source_files} )
+add_executable(compilers_101 src/LinkedListParser.cpp)
