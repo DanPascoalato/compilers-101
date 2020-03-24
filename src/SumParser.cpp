@@ -1,84 +1,75 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
 using namespace std;
 
-bool is_decimal_symbol(char);
-bool is_negative_symbol(char);
-bool is_whitespace_or_eol(char);
-vector<string> parse_numbers_from(string);
+bool is_math_operator(char);
+bool is_eol(char);
 
-int main()
-{
-    const string message = "abc@ 127.32 -28 .3";
-    const vector<string> numbers = parse_numbers_from(message);
 
-    for (int i = 0; i < numbers.size(); i++) {
-        cout << numbers[i] << endl;
+
+class Node {
+    int value;
+
+    public:
+        Node(int value) {
+            this->value = value;
+        }
+};
+
+class MathOperation {
+
+    public:
+        char op;
+        Node* left;
+        Node* right;
+
+    MathOperation(Node *left, char op, Node *right) {
+        this->left = left;
+        this->op = op;
+        this->right = right;
     }
-    cout << "Done" << endl;
-    return 0;
-}
 
-vector<string> parse_numbers_from(string message) {
-    vector<string> numbers;
-    string buffer;
-    bool skip_until_whitespace = false, can_read_decimal = true, can_read_negative = true;
+};
 
-    for (int i = 0; i <= message.length(); i++)
-    {
-        char chr = message[i];
+int main() {
+    string input = "20 + 32 * 47 * 2^10 + 130";
+    string buffer = "";
+    vector<MathOperation*> ops;
 
-        if (skip_until_whitespace) {
-            if (is_whitespace_or_eol(chr)) {
-                skip_until_whitespace = false;
-                can_read_decimal = can_read_negative = true;
-                buffer = "";
-            }
-            continue;
-        }
+    long acc = 0;
+    for(int i = 0, j = 0; i <= input.length(); i++){
+        char chr = input[i];
 
-        if (isnumber(chr)) {
+        if(isdigit(chr)){
             buffer += chr;
-            can_read_negative = false;
         }
-        else if (is_decimal_symbol(chr) && can_read_decimal) {
-            if (buffer == "") {
-                buffer = "0";
+        else if(is_math_operator(chr)){
+            Node* left = new Node(stoi(buffer));
+            Node* right = NULL;
+
+            if (!ops.empty()) {
+                ops[j-1]->right = left;
             }
-            buffer += chr;
-            can_read_decimal = false;
-            can_read_negative = false;
-        }
-        else if (is_negative_symbol(chr) && can_read_negative) {
-            buffer = chr;
-            can_read_negative = false;
-        }
-        else if (is_whitespace_or_eol(chr)) {
-            if (buffer != "") {
-                numbers.push_back(buffer);
-                buffer = "";
-            }
-            can_read_decimal = can_read_negative = true;
-        }
-        else {
-            skip_until_whitespace = true;
+
+            ops.push_back(new MathOperation(left, chr, right));
+            j++;
             buffer = "";
         }
+        else if(is_eol(chr)) {
+            Node* node = new Node(stoi(buffer));
+            ops[j-1]->right = node;
+        }
     }
 
-    return numbers;
 }
 
 
-bool is_decimal_symbol(char chr) {
-    return chr == '.';
+bool is_eol(char chr) {
+    return chr == '\0';
 }
 
-bool is_negative_symbol (char chr) {
-    return chr == '-';
-}
-
-bool is_whitespace_or_eol(char chr) {
-    return chr == ' ' or chr == '\0';
+bool is_math_operator(char chr){
+    return chr == '+' || chr == '-' || chr == '*' || chr == '/' || chr == '^';
 }
