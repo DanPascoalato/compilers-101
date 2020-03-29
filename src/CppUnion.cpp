@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 enum TokenType {
     TEXT=1,
@@ -16,31 +17,27 @@ union Value {
 
 
 class Token {
+
     public:
         TokenType tokenType;
         Value value;
 
     private:
-        Token() {
+        Token(TokenType tt) {
             value = Value();
+            tokenType = tt;
         }
 
     public:
-        Token(TokenType tt, int integerValue) {
-            Token();
-            tokenType = tt;
+        Token(TokenType tt, int integerValue) : Token(tt) {
             value.d = integerValue;
         }
 
-        Token(TokenType tt, double doubleValue) {
-            Token();
-            tokenType = tt;
+        Token(TokenType tt, double doubleValue) : Token(tt) {
             value.f = doubleValue;
         }
 
-        Token(TokenType tt, char* tValue) {
-            Token();
-            tokenType = tt;
+        Token(TokenType tt, char* tValue) : Token(tt) {
             value.t = tValue;
         }
 
@@ -49,6 +46,7 @@ class Token {
 using namespace std;
 
 void print(Token* token) {
+
     switch(token->tokenType) {
         case TokenType::INTEGER:
             cout << "Token (int): " << token->value.d << endl;
@@ -64,10 +62,15 @@ void print(Token* token) {
 
 int main() {
     char charSequence[] = "lorem ipsum";
-    Token* tToken = new Token(TEXT, charSequence);
-    Token* iToken = new Token(INTEGER, 10);
-    Token* fToken = new Token(FLOAT, 3.14);
 
-    print(tToken);
+    vector<Token*> tokens = {
+        new Token(TEXT, charSequence),
+        new Token(INTEGER, 10),
+        new Token(FLOAT, 3.14)
+    };
+
+    for (Token* token : tokens) {
+        print(token);
+    }
 }
 
