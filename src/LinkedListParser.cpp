@@ -15,28 +15,23 @@ class Node {
         Node* next;
 
     private:
-        Node() {
+        Node(Node* nextNode) {
             this->value = Value();
+            this->next = nextNode;
         }
 
     public:
-        Node(int value, Node* nextNode) {
-            Node();
-            this->next = nextNode;
+        Node(int value, Node* next) : Node(next) {
             this->tag = INT;
             this->value = {.intValue=value};
         }
 
-        Node (double value, Node* nextNode) {
-            Node();
-            this->next = nextNode;
+        Node (double value, Node* next) : Node(next) {
             this->tag = DOUBLE;
             this->value = {.doubleValue=value};
         }
 
-        Node (char* value, Node* nextNode) {
-            Node();
-            this->next = nextNode;
+        Node (char* value, Node* next) : Node(next) {
             this->tag = TEXT;
             this->value = {.strValue=value};
         }
@@ -44,6 +39,7 @@ class Node {
 };
 
 void print(Node* node) {
+
     switch (node->tag) {
         case Node::INT:
             cout << "Integer Value: " << node->value.intValue << endl;
@@ -58,13 +54,13 @@ void print(Node* node) {
 }
 
 int main() {
+
     char charSequence[] = "demo string value";
-    Node* third  = new Node(charSequence, NULL);
+    Node* third  = new Node(charSequence, nullptr);
     Node* second = new Node(3.1416, third);
     Node* first = new Node(1, second);
 
-    for (Node* head = first; head != NULL; head = head->next) {
+    for (Node* head = first; head != nullptr; head = head->next) {
         print(head);
     }
-
 }
