@@ -2,51 +2,77 @@
 Computer Science Undergrad Course - Compilers
 
 
-## tinyexpr in C++
+## Tech Stack
+- C++ 2020
+- CMake
 
-File: **sample.cpp**
+
+## Up & Running 
+
+### CMake
+
+**Build:**
+```
+$ cd {PROJECT_ROOT} 
+$ mkdir cmake-build-debug & cd cmake-build-debug
+$ cmake ..
+$ make
+```
+
+**Run:**
+```$xslt
+./expr_eval
+```
+
+
+### Manual Linking in C++
+
+File: **expr_eval.cpp**
 ````c++
-#include <iostream>
+#include <stdio.h>
 #include "libs/tinyexpr.h"
 
-using namespace std;
-
 int main() {
-    char expr[] = "2 * (3 + 7)^2";
-    double expr_value = te_interp(expr, nullptr);
-    cout << expr_value << endl;
+    string expr;
+
+    cout << "Evaluate Expr: ";
+    getline(cin, expr);
+    double expr_value = te_interp(expr.c_str(), nullptr);
+
+    cout << "Result: " << expr_value << endl;
 }
 ````
 
-**Up & Running:** 
+**Build:** 
 ```
-$ g++ -g -c sample.cpp -o sample.o
+$ g++ -g -c expr_eval.cpp -o expr_eval.o
 $ cc -g -c tinyexpr.c -o tinyexpr.o
-$ g++ sample.o tinyexpr.o -lm -o sample.bin
-$ ./sample.bin
+$ g++ expr_eval.o tinyexpr.o -lm -o expr_eval
+$ ./expr_eval
 ```
 
-Returns: `200`
 
+### Manual Linking in C
 
-## tinyexpr in C
-
-File: **sample.c**
+File: **expr_eval.c**
 ```c
 #include <stdio.h>
-#include "tinyexpr.h"
+#include "libs/tinyexpr.h"
 
 int main() {
-    char expr[] = "2 * (3 + 7)^2";
+    char *expr = NULL;
+    unsigned int len;
+
+    printf("Evaluate Expr: ");
+    getline(&expr, &len, stdi);
+
     double expr_value = te_interp(expr, 0);
-    printf("%f", expr_value);
+    printf("Result: %f\n", expr_value);
 }
 ```
 
 **Up & Running:** 
 ```
-$ gcc -g sample.c tinyexpr.c -o sample.bin
-$ ./sample.bin
+$ gcc -g expr_eval.c tinyexpr.c -o expr_eval
+$ ./expr_eval
 ```
-
-Returns: `200`
