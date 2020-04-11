@@ -280,6 +280,7 @@ void next_token(state *s) {
                     case '*': s->type = TOK_INFIX; s->function = mul; break;
                     case '/': s->type = TOK_INFIX; s->function = divide; break;
                     case '^': s->type = TOK_INFIX; s->function = pow; break;
+                    case '!': s->type = TOK_INFIX; s->function = fac; break;
                     case '%': s->type = TOK_INFIX; s->function = fmod; break;
                     case '(': s->type = TOK_OPEN; break;
                     case ')': s->type = TOK_CLOSE; break;
@@ -465,18 +466,31 @@ static te_expr *factor(state *s) {
 
     return ret;
 }
+
+static te_expr *factorial(state *s) {
+    te_expr *ret = factor(s);
+
+    while (s-> type == TOK_INFIX && s->function == fac) {
+        te_fun2 t = s->function;
+        next_token(s);
+        ret = NEW_EXPR(TE_FUNCTION1 | TE_FLAG_PURE, ret);
+        ret->function = t;
+    }
+
+    return ret;
+}
 #endif
 
 
 
 static te_expr *term(state *s) {
     /* <term>      =    <factor> {("*" | "/" | "%") <factor>} */
-    te_expr *ret = factor(s);
+    te_expr *ret = factorial(s);
 
     while (s->type == TOK_INFIX && (s->function == mul || s->function == divide || s->function == fmod)) {
         te_fun2 t = s->function;
         next_token(s);
-        ret = NEW_EXPR(TE_FUNCTION2 | TE_FLAG_PURE, ret, factor(s));
+        ret = NEW_EXPR(TE_FUNCTION2 | TE_FLAG_PURE, ret, factorial(s));
         ret->function = t;
     }
 
