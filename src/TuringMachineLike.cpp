@@ -3,6 +3,7 @@
 using namespace std;
 
 typedef void (*fnptr)(const char*);
+string output = "";
 
 void move_right(const char* charSeq) {
     charSeq++;
@@ -32,6 +33,10 @@ void print_first_10(const char* charSeq) {
     cout << buffer << endl;
 }
 
+void store(const char* charSeq) {
+    output += charSeq;
+}
+
 void loop_start(const char* expr) { }
 
 void loop_end(const char* expr) { }
@@ -47,7 +52,7 @@ fnptr fn_select(char op) {
         case '[': fn = &loop_start; break;
         case ']': fn = &loop_end; break;
         case '.': fn = &print; break;
-        case ',': break;
+        case ',': fn = &store; break;
         case '#': fn = &print_first_10; break;
     }
     return fn;
@@ -87,6 +92,7 @@ Instruction* resolve(const char* instructions, const char* head) {
     else {
         if (op == '[') {
             Instruction *loop_instr = resolve(++instructions, head);
+
             /** Inner loop **/
             Instruction *loop_next_instr = resolve(++instructions, head);
             loop_instr->next(loop_next_instr);
