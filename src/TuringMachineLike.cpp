@@ -72,6 +72,30 @@ public:
     }
 };
 
+Instruction* resolve(const char* instructions, const char* head) {
+    char op = instructions[0];
+
+    if (op == '\0') {
+        return nullptr;
+    }
+    else {
+        if (op == '[') {
+            Instruction *next = resolve(++instructions, head);
+            return next;
+        }
+        else if (op == ']') {
+            Instruction *next = resolve(++instructions, head);
+            return next;
+        }
+        else {
+            Instruction *instr = new Instruction(op);
+            Instruction *next = resolve(++instructions, head);
+            return instr->next(next);
+        }
+    }
+}
+
+
 int main() {
     string _expr = "marrocos";
     string _instr = "+[>]<-[+.<-]";
@@ -79,6 +103,9 @@ int main() {
     const char* expr = _expr.c_str();
     const char* instr = _instr.c_str();
     const char* head = &expr[0];
+
+    Instruction *pInstruction = resolve(instr, head);
+    cout << "Hello world";
 
     return 0;
 }
