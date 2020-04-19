@@ -58,19 +58,23 @@ class Instruction {
 public:
     fnptr function;
     char op;
-    char chr;
+    const char **head_ptr;
     Instruction* _next;
 
-    Instruction(char op, char chr) {
+    Instruction(char op, const char *head) {
         this->function = fn_select(op);
         this->op = op;
-        this->chr = chr;
+        this->head_ptr = &head;
         this->_next = nullptr;
     }
 
     Instruction* next(Instruction* instruction) {
         this->_next = instruction;
         return this;
+    }
+
+    void execute() {
+        function(*head_ptr);
     }
 };
 
@@ -95,7 +99,17 @@ Instruction* resolve(const char* instructions, const char* head) {
             return next;
         }
         else {
-            Instruction *instr = new Instruction(op, *head);
+            Instruction *instr = new Instruction(op, head);
+
+            //TODO: Debug why calling execute for move_right and left won't work
+            if (instr->function == &move_right) {
+                head++;
+            } else if (instr->function == &move_left) {
+                head--;
+            } else {
+                instr->execute();
+            }
+
             Instruction *next = resolve(++instructions, head);
             return instr->next(next);
         }
