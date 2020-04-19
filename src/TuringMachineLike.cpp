@@ -34,7 +34,7 @@ void print_first_10(const char* charSeq) {
 }
 
 void store(const char* charSeq) {
-    output += charSeq;
+    output += charSeq[0];
 }
 
 void loop_start(const char* expr) { }
@@ -101,8 +101,16 @@ Instruction* resolve(const char* instructions, const char* head) {
             return loop_instr;
         }
         else if (op == ']') {
-            Instruction *next = resolve(++instructions, head);
-            return next;
+
+            if (head[0] == '\0') {
+                Instruction *next = resolve(++instructions, head);
+                return next;
+            }
+            else {
+                do { --instructions; } while (instructions[0] != '[');
+                Instruction *next = resolve(++instructions, head);
+                return next;
+            }
         }
         else {
             Instruction *instr = new Instruction(op, head);
@@ -125,7 +133,7 @@ Instruction* resolve(const char* instructions, const char* head) {
 
 int main() {
     string _expr = "marrocos";
-    string _instr = "+[>]<-[+.<-]";
+    string _instr = "+[>,]<-[+.<-]";
 
     const char* expr = _expr.c_str();
     const char* instr = _instr.c_str();
