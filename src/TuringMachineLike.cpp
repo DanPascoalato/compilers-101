@@ -58,11 +58,13 @@ class Instruction {
 public:
     fnptr function;
     char op;
+    char chr;
     Instruction* _next;
 
-    Instruction(char op) {
+    Instruction(char op, char chr) {
         this->function = fn_select(op);
         this->op = op;
+        this->chr = chr;
         this->_next = nullptr;
     }
 
@@ -80,15 +82,20 @@ Instruction* resolve(const char* instructions, const char* head) {
     }
     else {
         if (op == '[') {
-            Instruction *next = resolve(++instructions, head);
-            return next;
+            Instruction *loop_instr = resolve(++instructions, head);
+            /** Inner loop **/
+            Instruction *loop_next_instr = resolve(++instructions, head);
+            loop_instr->next(loop_next_instr);
+            /** End of the Inner Loop */
+
+            return loop_instr;
         }
         else if (op == ']') {
             Instruction *next = resolve(++instructions, head);
             return next;
         }
         else {
-            Instruction *instr = new Instruction(op);
+            Instruction *instr = new Instruction(op, *head);
             Instruction *next = resolve(++instructions, head);
             return instr->next(next);
         }
@@ -105,7 +112,6 @@ int main() {
     const char* head = &expr[0];
 
     Instruction *pInstruction = resolve(instr, head);
-    cout << "Hello world";
 
     return 0;
 }
