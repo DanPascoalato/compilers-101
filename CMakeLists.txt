@@ -15,10 +15,11 @@ add_library(tiny_expr
     src/libs/tinyexpr.c
 )
 
-add_executable(cpp_union            src/CppUnion.cpp)
-add_executable(expr_eval            src/ExprEvaluator.cpp)
-add_executable(lexical_parser       src/LexicalParser.cpp)
-add_executable(linked_list_parser   src/LinkedListParser.cpp)
-add_executable(turing_machine       src/TuringMachineLike.cpp)
+add_executable(cpp_union          src/CppUnion.cpp)
+add_executable(expr_eval          src/ExprEvaluator.cpp)
+add_executable(lexical_parser     src/LexicalParser.cpp)
+add_executable(linked_list_parser src/LinkedListParser.cpp)
+add_executable(tm1                src/TuringMachine1.cpp)
+add_executable(tm2                src/TuringMachine2.cpp)
 
 target_link_libraries(expr_eval PRIVATE tiny_expr)
