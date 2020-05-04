@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stack>
-#include <sstream>
 #include <vector>
 
 #define MAX 3000
@@ -8,13 +6,16 @@
 using namespace std;
 
 
+bool eval_is_vallid(vector<string> tokens) {
+    return true;
+}
+
 vector<string> split_expr(string expr) {
     vector<string> words;
-    string word = "";
+    string word;
 
     for (auto token : expr) {
         if (token == ' ') {
-            cout << word << endl;
             words.push_back(word);
             word = "";
         }
@@ -35,8 +36,12 @@ int main() {
     while(getline(cin, expr, '\n')) {
         const char *str = expr.c_str();
         const vector<string> tokens = split_expr(str);
-        cout << endl;
-    }
+        int is_valid_expr = eval_is_vallid(tokens);
 
+        if (is_valid_expr)
+            cout << "OK" << endl;
+        else
+            cout << "Compilation Error" << endl;
+    }
     return 0;
 }
