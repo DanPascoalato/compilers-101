@@ -72,7 +72,7 @@ expr str_to_expr(string expr_str) {
         }
     }
 
-    if (!(word != "")) {
+    if (word != "") {
         tokens.push_back(new Token(word));
     }
     return tokens;
