@@ -80,16 +80,25 @@ void execute(char* expr, char* instr) {
 
 
 int main() {
-    string _expr = "marrocos";
-    string _instr = "+[>,]<-[+.<-]";
 
-    char expr[MAX];
-    char instr[MAX];
+    string number_inputs;
+    getline(cin, number_inputs);
 
-    strncpy(expr, _expr.c_str(), _expr.size()+1);
-    strncpy(instr, _instr.c_str(), _instr.size()+1);
-    execute(expr, instr);
-    cout << output << endl;
+    for (int i = 0; i < stoi(number_inputs); i++) {
+        string _expr, _instr, _skip;
+        char expr[MAX], instr[MAX];
+
+        cin.ignore();
+        getline(cin, _expr);
+        getline(cin, _instr);
+
+        strncpy(expr, _expr.c_str(), _expr.size()+1);
+        strncpy(instr, _instr.c_str(), _instr.size()+1);
+
+        execute(expr, instr);
+        cout << "Instancia " << i+1 << endl;
+        cout << output << endl;
+    }
 
     return 0;
 }

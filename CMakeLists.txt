@@ -7,7 +7,7 @@ set(CMAKE_C_STANDARD 11)
 
 # C++ Flags
 set(CMAKE_CXX_COMPILER g++)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 
 add_library(tiny_expr
@@ -23,3 +23,5 @@ add_executable(expr_eval            src/tinyexpr/ExprEvaluator.cpp)
 target_link_libraries(expr_eval PRIVATE tiny_expr)
 
 add_executable(brainfuck            src/brainfuck/Brainfuck.cpp)
+
+add_executable(simple_compiler      src/simplecompiler/SimpleCompiler.cpp)
