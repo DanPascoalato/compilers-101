@@ -1,10 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <unordered_map>
 
 using namespace std;
-unordered_map<string, string> fn_variables;
-
 
 int count_substr(string expr, string substr) {
     unsigned int expr_len = expr.length();
