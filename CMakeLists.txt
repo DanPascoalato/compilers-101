@@ -20,8 +20,9 @@ add_executable(lexical_parser       src/simpleparser/LexicalParser.cpp)
 add_executable(linked_list_parser   src/simpleparser/LinkedListParser.cpp)
 
 add_executable(expr_eval            src/tinyexpr/ExprEvaluator.cpp)
-target_link_libraries(expr_eval PRIVATE tiny_expr)
+target_link_libraries(expr_eval     PRIVATE tiny_expr)
 
 add_executable(brainfuck            src/brainfuck/Brainfuck.cpp)
 
 add_executable(simple_compiler      src/simplecompiler/SimpleCompiler.cpp)
+add_executable(exact_string         src/simplecompiler/ExactSubString.cpp)
