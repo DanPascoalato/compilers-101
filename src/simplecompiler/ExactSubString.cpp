@@ -11,30 +11,21 @@ int count_substr(string expr, string substr) {
         return 0;
     }
     else {
-        // O(n)
-        for (unsigned int i = 0, j = substr_len; i+j <= expr_len; i++) {
-            // O(m)
+        for (unsigned int i = 0, j = substr_len; i + j <= expr_len; i++) {
             auto tmp = expr.substr(i, j);
-            if (tmp == substr) {
-                counter++;
-            }
+            if (tmp == substr) counter++;
         }
     }
 
-    // O(n * m)
     return counter;
 }
 
 
 int main() {
-    string expr;
-    string substr;
+    string expr, substr;
 
-    cout << "Original expr: ";
-    getline(cin, expr);
-
-    cout << "Substring: ";
-    getline(cin, substr);
+    cout << "Original expr: "; getline(cin, expr);
+    cout << "Substring: "; getline(cin, substr);
 
     cout << count_substr(expr, substr) << endl;
     return 0;

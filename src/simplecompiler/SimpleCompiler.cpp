@@ -22,10 +22,12 @@ class Token {
             if (word.find_first_not_of("0123456789") == string::npos) {
                 this->value = stoi(word);
                 this->type = INTEGER;
-            } else if (word.find_first_not_of("+-*/:=") == string::npos) {
+            }
+            else if (word.find_first_not_of("+-*/:=") == string::npos) {
                 this->op = word;
                 this->type = OPERATOR;
-            } else {
+            }
+            else {
                 this->var = word;
                 this->type = VAR;
             }
@@ -42,12 +44,12 @@ bool is_valid_eval(expr expression) {
         return false;
 
     for (auto arg : vargs) {
-        if (arg->type == VAR) {
+        if (arg->type == VAR)
             if (fn_variables.find(arg->var) == fn_variables.end())
                 return false;
-        }
     }
-    fn_variables[varname] ="value";
+
+    fn_variables[varname] = "value";
     return true;
 }
 
@@ -67,7 +69,8 @@ expr str_to_expr(string expr_str) {
         if (token == ' ') {
             tokens.push_back(new Token(word));
             word = "";
-        } else {
+        }
+        else {
             word.push_back(token);
         }
     }
@@ -91,11 +94,6 @@ int main() {
         expressions.push_back(expr);
     }
 
-    if (is_valid_eval(expressions)) {
-        cout << "OK" << endl;
-    } else {
-        cout << "Compilation Error" << endl;
-    }
-
+    cout << (is_valid_eval(expressions) ? "OK" : "Compilation Error") << endl;
     return 0;
 }
