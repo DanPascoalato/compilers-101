@@ -7,14 +7,12 @@ enum TokenType {
     FLOAT=3
 };
 
-
 // Only one of the following can be assigned at the same time
 union Value {
     int d;
     double f;
     char *t;
 };
-
 
 class Token {
 
@@ -29,18 +27,9 @@ class Token {
         }
 
     public:
-        Token(TokenType tt, int integerValue) : Token(tt) {
-            value.d = integerValue;
-        }
-
-        Token(TokenType tt, double doubleValue) : Token(tt) {
-            value.f = doubleValue;
-        }
-
-        Token(TokenType tt, char* tValue) : Token(tt) {
-            value.t = tValue;
-        }
-
+        Token(TokenType tt, int integerValue) : Token(tt) { value.d = integerValue; }
+        Token(TokenType tt, double doubleValue) : Token(tt) { value.f = doubleValue; }
+        Token(TokenType tt, char* tValue) : Token(tt) { value.t = tValue; }
 };
 
 using namespace std;

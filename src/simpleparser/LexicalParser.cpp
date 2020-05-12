@@ -8,13 +8,12 @@ bool is_negative_symbol(char);
 bool is_whitespace_or_eol(char);
 vector<string> parse_numbers_from(string);
 
-int main()
-{
+int main() {
     const string message = "abc@ 127.32 -28 .3";
     const vector<string> numbers = parse_numbers_from(message);
 
-    for (int i = 0; i < numbers.size(); i++) {
-        cout << numbers[i] << endl;
+    for (auto number : numbers) {
+        cout << number << endl;
     }
 
     cout << "Done" << endl;
@@ -26,8 +25,7 @@ vector<string> parse_numbers_from(string message) {
     string buffer;
     bool skip_until_whitespace = false, can_read_decimal = true, can_read_negative = true;
 
-    for (int i = 0; i <= message.length(); i++)
-    {
+    for (int i = 0; i <= message.length(); i++) {
         char chr = message[i];
 
         if (skip_until_whitespace) {
