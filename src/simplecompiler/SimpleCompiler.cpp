@@ -5,15 +5,11 @@
 using namespace std;
 unordered_map<string, string> fn_variables;
 
-enum TokenType {
-    INTEGER=1,
-    VAR=2,
-    OPERATOR=3
-};
+enum IdentType { NUMBER, VARIABLE, OPERATOR };
 
 class Token {
     public:
-        TokenType type;
+        IdentType type;
         string var;
         string op;
         int value;
@@ -21,7 +17,7 @@ class Token {
         Token(string word) {
             if (word.find_first_not_of("0123456789") == string::npos) {
                 this->value = stoi(word);
-                this->type = INTEGER;
+                this->type = NUMBER;
             }
             else if (word.find_first_not_of("+-*/:=") == string::npos) {
                 this->op = word;
