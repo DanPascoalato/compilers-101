@@ -2,7 +2,7 @@
 #include <regex>
 #include <map>
 
-typedef enum {val, def} Symbol;
+void expect_statement();
 
 using namespace std;
 
@@ -13,15 +13,29 @@ void next_line() {
     getline(cin, line);
 }
 
+
+bool expect_start_block() {
+    regex start_block(R"(.*\{\s*)");
+    smatch results;
+    return regex_match(line, results, start_block);
+}
+
+bool expect_end_block() {
+    regex end_block(R"(\s*\}\s*)");
+    smatch results;
+    return regex_match(line, results, end_block);
+}
+
 void expect_block() {
-    //TODO: to be implemented
+    expect_start_block();
+    next_line();
+    expect_statement();
+    expect_end_block();
 }
 
 void expect_statement() {
     regex constPattern(R"((val)\s(\w+)\s*=\s*(.+))");
     regex funcPattern(R"((def) (\w+)\s*(.*)\s*)");
-    regex exitPattern(R"(exit)");
-
     smatch results;
 
     if (regex_match(line, results, constPattern)) {
@@ -33,7 +47,8 @@ void expect_statement() {
         string identifier = results[2];
         string vargs = results[3];
         expect_block();
-    } else if (regex_match(line, results, exitPattern)) {
+    }
+    else {
         return;
     }
 
