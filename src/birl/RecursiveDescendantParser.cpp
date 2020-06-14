@@ -18,11 +18,10 @@ void next_line() {
     getline(cin, line);
 }
 
-
 bool verify_identifier(string id) {
-    regex identifier(R"([A-z][a-z0-9]*)");
+    regex identifier(R"([^0-9][A-z0-9]*)");
     smatch results;
-    return regex_match(line, results, varDeclarationPattern);
+    return regex_match(id, results, identifier);
 }
 
 // each line is a block
@@ -51,7 +50,8 @@ void block() {
 }
 
 int main() {
-    next_line();
-    block();
+    cout << verify_identifier("$nome") << endl;
+//    next_line();
+//    block();
     return 0;
 }
